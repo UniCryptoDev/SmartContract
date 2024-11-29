@@ -12,18 +12,22 @@ import {ERC721URIStorage} from "@openzeppelin/contracts@5.1.0/token/ERC721/exten
 import {Ownable} from "@openzeppelin/contracts@5.1.0/access/Ownable.sol";
 // Permette la gestione del contratto tramite un proprietario (owner).
 
-// Dichiarazione del contratto UniCryptoToken.
+// Dichiarazione del contratto UniCryptoToken con le dovute implementazioni.
 contract UniCryptoToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     // Contatore per tracciare il prossimo ID di token da mintare.
-    uint256 private _nextTokenId;
+    uint256 private _nextTokenId; // intero senza segno di 256bit [0,2^(256) - 1]
 
     // Costruttore del contratto
+    // (wallet) address: valore esadecimale di 20 byte
     constructor(address initialOwner)
         ERC721("UniCryptoToken", "UCK") // Imposta nome e simbolo del token.
         Ownable(initialOwner) // Imposta l'owner iniziale del contratto.
     {}
 
     // Funzione per mintare in modo sicuro un nuovo NFT.
+    // Il gas è l'unità di misura che rappresenta la quantità di lavoro computazionale necessario per eseguire un operazione
+    // Gas Fee = gas used * gas price
+    // la parola chiave memory indica un parametro temporaneo che viene archiviato SOLO durante l'esecuzione del metodo
     function safeMint(address to, string memory uri) public onlyOwner {
         // Verifica che solo il proprietario del contratto possa chiamare questa funzione.
         uint256 tokenId = _nextTokenId++; // Incrementa il contatore e assegna l'ID al nuovo token.
@@ -67,4 +71,17 @@ contract UniCryptoToken is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     {
         return super.supportsInterface(interfaceId); // Controlla la compatibilità con le interfacce ERC-721.
     }
+    
+    /* 
+    * Modificatori di Accesso:
+    * view indica che il metodo non modifica lo stato del contratto ma può solo leggerlo
+    * payable indica che il metodo può ricevere Ether
+    * external indica che il metodo può essere chiamata solo dall’esterno del contratto
+    * internal indica che il metodo può essere chiamata solo all’interno del contratto stesso e dai contratti derivati (protected di Java)
+    * private indica che il metodo può essere chiamata solo all’interno del contratto in cui è dichiarata
+    * public indica una variabile/metodo accessibile sia internamente che esternamente
+    * override indica che il metodo sovrascrive una funzione con lo stesso nome e firma in un contratto base
+    * virtual indica che il metodo può essere sovrascritta in un contratto derivato
+    * pure indica che il metodo né legge né modifica lo stato del contratto => esegue calcoli/logica NON dipendente dal contratto senza impiegare gas
+    */
 }
