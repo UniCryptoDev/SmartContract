@@ -1,0 +1,19 @@
+{
+    "name": "LogoUniCrypto#0",
+    "description": "LogoUniCrypto is an NFT collection for educational purposes.",
+    "image": "https://ipfs.io/ipfs/QmQM9oGvmsHzV7jU7yJZh3StPvhMJ2X5VKXuzp4ua4ETBr/unicrypto.jpg",
+    "attributes": [
+        {
+            "trait_type": "background",
+            "value": "blue"
+        },
+        {
+            "trait_type": "color",
+            "value": "white"
+        },
+        {
+            "trait_type": "shape",
+            "value": "green"
+        }
+    ]
+}
